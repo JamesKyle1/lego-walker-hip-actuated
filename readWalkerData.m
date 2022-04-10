@@ -5,7 +5,7 @@ clc
 
 %% Reading Data
 
-data = readmatrix("04_07_2022 Data/TESTRUN1.TXT"); %Opening file for reading ('r')
+data = readmatrix("04_07_2022 Data/TESTRUN7.TXT"); %Opening file for reading ('r')
 
 time = data(:,1);
 pos_in = data(:,2);
