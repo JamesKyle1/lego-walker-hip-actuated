@@ -34,7 +34,7 @@ DynamixelShield dxl;
 using namespace ControlTableItem;
 
 
-int startOffset = 960; //Original 820
+int startOffset = 1040; //Original 820
 int GOAL_SPEED = 32;
 float t_ime;
 
@@ -51,7 +51,7 @@ float A_right = 480;
 
 
 const int chipSelect = SDCARD_SS_PIN;
-String fileName = "testRun3.txt";
+String fileName = "testRun3.txt"; //File name
 
 //Vectors for experimental data
 float current_time;
