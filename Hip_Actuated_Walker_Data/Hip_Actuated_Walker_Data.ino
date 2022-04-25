@@ -21,6 +21,9 @@ float yaw_prev = 0;
 int16_t raw_gyroZ;
 
 
+int counter = 0;
+
+
 
 
 
@@ -51,7 +54,7 @@ float A_right = 480;
 
 
 const int chipSelect = SDCARD_SS_PIN;
-String fileName = "testRun3.txt"; //File name
+String fileName = "testRun10.txt"; //File name
 
 //Vectors for experimental data
 float current_time;
@@ -68,7 +71,7 @@ bool printHeaders = true;
 
 void setup() {
   // Open serial communications and wait for port to open:
-  Serial.begin(9600);
+  Serial.begin(57600);
 
   Serial.print("Initializing SD card...");
 
@@ -119,6 +122,8 @@ void setup() {
 }
 
 void loop() {
+
+  counter++;
 
   t_ime = millis();
   float t = t_ime / 1000; //time in sec
@@ -192,17 +197,19 @@ void loop() {
 
   } else {
 
-    //Write new data to SD Card
-    if (dataFile) {
-      String dataString = (String) current_time + ", " + current_pos + ", " + current_actual_pos + ", " + current_velocity + ", " + current_yaw + ", " + current_current;
-      dataFile.println(dataString);
-      dataFile.close();
+//    if (!(counter % 10)) {
+      //Write new data to SD Card
+      if (dataFile) {
+        String dataString = (String) current_time + ", " + current_pos + ", " + current_actual_pos + ", " + current_yaw + ", " + current_current;
+        dataFile.println(dataString);
+        dataFile.close();
 
-      Serial.println(dataString);
+        Serial.println(dataString);
 
-    } else {
-      Serial.println((String) "error writing data to " + fileName);
-    }
+      } else {
+        Serial.println((String) "error writing data to " + fileName);
+      }
+//    }
 
 
   }
@@ -227,15 +234,17 @@ float getJointAngle(float t) {
 
   /*Calculating sinusoidal input*/
 
-  //First half
-  if (tau < p_right / 2) {
-    pos = A_right * sin(w_right * tau + phi) + startOffset;
-  }
+    //First half
+    if (tau < p_right / 2) {
+      pos = A_right * sin(w_right * tau + phi) + startOffset;
+    }
+  
+    //Second half
+    else if (p_right / 2 <= tau && tau <= p_right / 2 + p_left / 2) {
+      pos = A_left * sin(w_left * (tau - p_right / 2 + p_left / 2) + phi) + startOffset;
+    }
 
-  //Second half
-  else if (p_right / 2 <= tau && tau <= p_right / 2 + p_left / 2) {
-    pos = A_left * sin(w_left * (tau - p_right / 2 + p_left / 2) + phi) + startOffset;
-  }
+//  pos = A_right * sin(w_right * tau + phi) + startOffset;
 
   return pos;
 }
