@@ -43,8 +43,8 @@ float t_ime;
 
 
 //Frequency for each leg
-float f_left = 1.3;
-float f_right = 1.3;
+float f_left = 1.1;
+float f_right = 1.5;
 
 
 //Amplitude for sinusoid
@@ -52,9 +52,8 @@ float A_left = 480; //Starting point at 440 (4096 clicks per revolution)
 float A_right = 480;
 
 
-
 const int chipSelect = SDCARD_SS_PIN;
-String fileName = "testRun10.txt"; //File name
+String fileName = "Data2022o04o25oExp1.txt"; //File name
 
 //Vectors for experimental data
 float current_time;
